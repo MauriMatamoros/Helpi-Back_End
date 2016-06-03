@@ -1,0 +1,30 @@
+{
+  "name": "backendhelpiside",
+  "version": "1.0.0",
+  "description": "Backend side capable of manage all the data",
+  "main": "server.js",
+  "scripts": {
+    "test": "hapi inert hapi-auth-cookie",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/MauriMatamoros/Helpi-Back_End.git"
+  },
+  "keywords": [
+    "hapi",
+    "server"
+  ],
+  "author": "Chirstian & Mauri",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/MauriMatamoros/Helpi-Back_End/issues"
+  },
+  "homepage": "https://github.com/MauriMatamoros/Helpi-Back_End#readme",
+  "dependencies": {
+    "hapi": "^13.4.1",
+    "hapi-auth-cookie": "^6.1.1",
+    "inert": "^4.0.0",
+    "mongoose": "^4.4.19"
+  }
+}
