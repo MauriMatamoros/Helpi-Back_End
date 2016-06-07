@@ -3,13 +3,19 @@ var SHA3 = require('crypto-js/sha3');
 var boom = require('boom');
 
 exports.CreateUser = {
+  auth: {
+    mode:'try',
+    strategy:'session'
+  },
   handler: function(request, reply){
-    console.log('The request is: ' + request);
+    console.log('The request is: ' + request.data);
     var newUser = new user({
+      name: request.payload.name,
       username: request.payload.username,
       password: SHA3(request.payload.password),
       email: request.payload.email,
-      scope: request.payload.scope
+      scope: request.payload.scope,
+      profile_photo: request.payload.profile_photo
     });
     console.log('Preparando el nuevo usuario');
     newUser.save(function(err){
@@ -26,6 +32,11 @@ exports.CreateUser = {
 };
 
 exports.getUsers = {
+  auth: {
+    mode:'required',
+    strategy:'session',
+    scope: ['admin']
+  },
   handler: function(request, reply){
     var UserGot = user.find({});
     console.log('Replying all users');
@@ -34,6 +45,11 @@ exports.getUsers = {
 };
 
 exports.deleteUser = {
+  auth: {
+    mode:'required',
+    strategy:'session',
+    scope: ['donante']
+  },
   handler: function(request, reply){
     var userDeleted = user.find({_id: request.params._id}, function(err){
       if(!err){

@@ -1,6 +1,11 @@
 var caso = require('../schemas/case');
 
 exports.createCase = {
+  auth: {
+    mode:'required',
+    strategy:'session',
+    scope: ['admin']
+  },
   handler: function(request, reply){
     var newCase = new caso({
       nombre: request.payload.nombre,
@@ -22,6 +27,7 @@ exports.createCase = {
 };
 
 exports.getCases = {
+  auth: false,
   handler: function(request, reply){
     var Caso = caso.find({});
     console.log('Replying all cases');
@@ -30,6 +36,7 @@ exports.getCases = {
 };
 
 exports.getCaseByID = {
+  auth: false,
   handler: function(request, reply){
     var Caso = caso.find({_id: request.params._id}, function(err, game){
       if(!err){
@@ -43,6 +50,11 @@ exports.getCaseByID = {
 };
 
 exports.deleteCase = {
+  auth: {
+    mode:'required',
+    strategy:'session',
+    scope: ['admin']
+  },
   handler: function(request, reply){
     var caseDeleted = caso.find({_id: request.params._id}, function(err){
       if(!err){
@@ -59,6 +71,11 @@ exports.deleteCase = {
 };
 
 exports.updateCase = {
+  auth: {
+    mode:'required',
+    strategy:'session',
+    scope: ['admin']
+  },
   handler: function(request, reply){
     var Case = caso.findByIdAndUpdate(encodeURIComponent(request.params._id), {
       nombre: request.payload.nombre,
