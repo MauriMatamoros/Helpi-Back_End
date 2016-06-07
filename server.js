@@ -14,7 +14,7 @@ server.connection({
               }
 });
 
-mongoose.connect('mongodb://localhost:27017/helpi-test2');
+mongoose.connect('mongodb://helpimember:adminhelpi@ds025583.mlab.com:25583/helpidb');
 
 var db = mongoose.connection;
 db.on('error', console.error.bind(console, 'Error al conectar con base de datos'));
