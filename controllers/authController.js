@@ -1,6 +1,6 @@
 var boom = require('boom');
 var joi = require('joi');
-var user = require('../Schema/user');
+var user = require('../schemas/user');
 var SHA3 = require('crypto-js/sha3');
 
 exports.login = {
