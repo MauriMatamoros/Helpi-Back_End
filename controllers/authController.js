@@ -19,7 +19,13 @@ exports.login = {
       if(!err){
         if(user.length > 0){
           request.cookieAuth.set(user[0]);
-          return reply({username: user[0].username, scope: user[0].scope});
+          return reply({
+            name: user[0].name,
+            username: user[0].username,
+            scope: user[0].scope,
+            email: user[0].email,
+            profile_photo: user[0].profile_photo
+          });
         }
         console.log('Ocurrio un problema de autenticacion');
         return reply(boom.unauthorized('Usuario or password are incorrect'));
