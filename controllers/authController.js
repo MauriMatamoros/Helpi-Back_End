@@ -20,6 +20,7 @@ exports.login = {
         if(user.length > 0){
           request.cookieAuth.set(user[0]);
           return reply({
+            id: user[0]._id,
             name: user[0].name,
             username: user[0].username,
             scope: user[0].scope,

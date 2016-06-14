@@ -64,3 +64,27 @@ exports.deleteUser = {
     });
   }
 };
+
+exports.updateUser = {
+  auth: {
+    mode:'required',
+    strategy:'session',
+    scope: ['donante']
+  },
+  handler: function(request, reply){
+    var userUpdated = user.findByIdAndUpdate(encodeURIComponent(request.params._id), {
+      name: request.payload.name,
+      username: request.payload.username,
+      email: request.payload.email,
+      profile_photo: request.payload.profile_photo
+    }, function(err){
+      if(err){
+        console.log('Error... ' + err);
+        reply('Error');
+      }else{
+        console.log('Caso con ID: ' + request.payload._id + ' Ha sido modificado');
+        reply('Modificado');
+      }
+    });
+  }
+};

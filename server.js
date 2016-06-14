@@ -14,7 +14,7 @@ server.connection({
               }
 });
 
-mongoose.connect('mongodb://localhost:27017/helpidb');
+mongoose.connect('mongodb://localhost:27017/testdbchris');
 
 var db = mongoose.connection;
 db.on('error', console.error.bind(console, 'Error al conectar con base de datos'));
