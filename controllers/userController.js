@@ -105,15 +105,20 @@ exports.deleteUser = {
     scope: ['donante']
   },
   handler: function(request, reply){
-    var userDeleted = user.find({_id: request.params._id}, function(err){
+    var gameDeleted = user.find({_id: request.params._id}, function(err, user){
       if(!err){
-        console.log('Deleting user');
-        userDeleted.remove().exec();
-        console.log('user was deleted');
-        return reply('Deleted')
+        var cryptoPass = String(SHA3(request.params.password));
+        if(cryptoPass === user[0].password){
+          console.log('password match');
+          request.cookieAuth.clear();
+          gameDeleted.remove().exec();
+          reply('User Deleted');
+        }else{
+          return reply(boom.notAcceptable('Password incorrecto'));
+        }
       }else{
-        console.log('User not Found')
-        return reply('not_found');
+        console.log('user not Found')
+        return reply(boom.notAcceptable('Not Found'));
       }
     });
   }
