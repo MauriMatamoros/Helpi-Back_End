@@ -11,5 +11,8 @@ exports.endpoints = [{method: 'POST', path: '/cases/addcase', config: caseContro
 {method: 'DELETE', path: '/users/deleteuser/{_id}', config: userController.deleteUser},
 {method: 'POST', path: '/auth/login', config: authController.login},
 {method: 'GET', path: '/auth/logout', config: authController.logout},
-{method: 'PUT', path: '/users/update/{_id}', config: userController.updateUser}
+{method: 'PUT', path: '/users/update/{_id}', config: userController.updateUser},
+{method: 'GET', path: '/users/useremail/{email}', config: userController.getUserByEmail},
+{method: 'POST', path: '/users/mycases/{_id}/addCase', config: userController.addCaseToUser},
+{method: 'GET', path: '/users/mycases/{_id}', config: userController.getUserById}
 ];

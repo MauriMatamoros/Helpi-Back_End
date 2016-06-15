@@ -1,6 +1,7 @@
 var user = require('../schemas/user');
 var SHA3 = require('crypto-js/sha3');
 var boom = require('boom');
+var caso = require('../schemas/case');
 
 exports.CreateUser = {
   auth: {
@@ -31,6 +32,59 @@ exports.CreateUser = {
   }
 };
 
+exports.addCaseToUser = {
+  auth: {
+    mode:'required',
+    strategy:'session',
+    scope: ['donante']
+  },
+  handler: function(request, reply){
+    user.findByIdAndUpdate(
+      request.params._id,
+      {$push: {"cases": request.payload._id}},
+      {safe:true, upsert: true},
+      function(err){
+        if(err){
+          console.log(err);
+        }else{
+          return reply('success');
+        }
+    });
+  }
+};
+
+exports.getUserById = {
+  auth: {
+    mode:'required',
+    strategy:'session',
+    scope: ['donante']
+  },
+  handler: function(request, reply){
+    var me = user.find({_id: request.params._id}, function(err, user) {
+      if(err){
+        console.log(err);
+        return reply('Not Found');
+      }else{
+        return reply(user);
+      }
+    });
+  }
+}
+
+exports.getUserByEmail = {
+  auth: false,
+  handler: function(request, reply){
+    var userbyEmail = user.find({email: request.params.email}, function(err, user){
+      if(!err){
+       console.log('The user by email was found');
+       return reply(user);
+      }
+      console.log('The user by email was not Found');
+      return reply('user not Found');
+    });
+  }
+};
+
 exports.getUsers = {
   auth: {
     mode:'required',
@@ -53,12 +107,12 @@ exports.deleteUser = {
   handler: function(request, reply){
     var userDeleted = user.find({_id: request.params._id}, function(err){
       if(!err){
-        console.log('Deleting case');
+        console.log('Deleting user');
         userDeleted.remove().exec();
-        console.log('Case was deleted');
+        console.log('user was deleted');
         return reply('Deleted')
       }else{
-        console.log('Case not Found')
+        console.log('User not Found')
         return reply('not_found');
       }
     });
