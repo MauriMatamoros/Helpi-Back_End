@@ -8,7 +8,11 @@ exports.endpoints = [{method: 'POST', path: '/cases/addcase', config: caseContro
 {method: 'DELETE', path: '/cases/deletecase/{_id}', config: caseController.deleteCase},
 {method: 'POST', path: '/users/createuser', config: userController.CreateUser},
 {method: 'GET', path: '/users/getusers', config: userController.getUsers},
-{method: 'DELETE', path: '/users/deleteuser/{_id}', config: userController.deleteUser},
+{method: 'DELETE', path: '/users/deleteuser/{_id}/{password}', config: userController.deleteUser},
 {method: 'POST', path: '/auth/login', config: authController.login},
-{method: 'GET', path: '/auth/logout', config: authController.logout}
+{method: 'GET', path: '/auth/logout', config: authController.logout},
+{method: 'PUT', path: '/users/update/{_id}', config: userController.updateUser},
+{method: 'GET', path: '/users/useremail/{email}', config: userController.getUserByEmail},
+{method: 'POST', path: '/users/mycases/{_id}/addCase', config: userController.addCaseToUser},
+{method: 'GET', path: '/users/mycases/{_id}', config: userController.getUserById}
 ];
