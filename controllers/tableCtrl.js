@@ -8,7 +8,7 @@ exports.createTable = {
   },
   handler: function(request, reply){
     var newTable = new table({
-      name: request.payload.nombre,
+      name: request.payload.name,
       description: request.payload.description,
       money: request.payload.money
     });
@@ -77,7 +77,7 @@ exports.updateTable = {
   },
   handler: function(request, reply){
     var Table = table.findByIdAndUpdate(encodeURIComponent(request.params._id), {
-      name: request.payload.nombre,
+      name: request.payload.name,
       // no estoy seguro de que funciona
       donors: request.payload.description,
       case: request.payload.money
