@@ -8,7 +8,7 @@ exports.createCase = {
   },
   handler: function(request, reply){
     var newCase = new caso({
-      nombre: request.payload.nombre,
+      name: request.payload.name,
       imageLink: request.payload.imageLink,
       description: request.payload.description,
       money: request.payload.money
@@ -78,7 +78,7 @@ exports.updateCase = {
   },
   handler: function(request, reply){
     var Case = caso.findByIdAndUpdate(encodeURIComponent(request.params._id), {
-      nombre: request.payload.nombre,
+      name: request.payload.name,
       imageLink: request.payload.imageLink,
       description: request.payload.description,
       money: request.payload.money

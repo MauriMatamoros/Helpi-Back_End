@@ -1,10 +1,10 @@
 var mongoose = require('mongoose');
 
 var caseSchema = new mongoose.Schema({
-  nombre: String,
+  name: String,
   imageLink: String,
   description: String,
-  donantes: [String],
+  donors: [String],
   money: Number
 });
 
