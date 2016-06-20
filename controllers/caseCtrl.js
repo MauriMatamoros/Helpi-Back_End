@@ -2,11 +2,11 @@ var caso = require('../schemas/case');
 var table = require('../schemas/table');
 
 exports.createCase = {
-  // auth: {
-  //   mode:'required',
-  //   strategy:'session',
-  //   scope: ['admin']
-  // },
+  auth: {
+    mode:'required',
+    strategy:'session',
+    scope: ['admin']
+  },
   handler: function(request, reply){
     var newCase = new caso({
       name: request.payload.name,
