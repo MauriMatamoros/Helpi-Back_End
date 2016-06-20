@@ -53,9 +53,7 @@ exports.updateTable = {
   handler: function(request, reply){
     var Table = table.findByIdAndUpdate(encodeURIComponent(request.params._id), {
       name: request.payload.name,
-      // no estoy seguro de que funciona
       donors: request.payload.description,
-      case: request.payload.money
     }, function(err){
       if(err){
         console.log('Error... ' + err);
