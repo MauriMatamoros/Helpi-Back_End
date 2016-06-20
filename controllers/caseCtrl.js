@@ -15,25 +15,24 @@ exports.createCase = {
       money: request.payload.money
     });
     // console.log(this);
+    var newTable = new table({
+      name: request.payload.name,
+      case: newCase._id
+    });
+    newTable.save(function(err){
+      if(!err){
+        console.log('New table added to database');
+      }else{
+        console.log('An error was encountered whilst saving table');
+      }
+    });
     newCase.save(function(err){
       if(!err){
         console.log('Nuevo Caso agregado a DB');
         return reply('Caso guardado.');
       }else{
-        console.log('An error was found');
+        console.log('An error was encountered whilst saving case');
         return reply('Error');
-      }
-    });
-    var newTable = new table({
-      name: request.payload.name,
-      case: newCase._id
-    });
-
-    newTable.save(function(err){
-      if(!err){
-        console.log('New table added to database');
-      }else{
-        console.log('An error was encountered');
       }
     });
   }
