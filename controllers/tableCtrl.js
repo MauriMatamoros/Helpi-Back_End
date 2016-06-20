@@ -1,29 +1,4 @@
-var caso = require('../schemas/table');
-
-exports.createTable = {
-  auth: {
-    mode:'required',
-    strategy:'session',
-    scope: ['admin']
-  },
-  handler: function(request, reply){
-    var newTable = new table({
-      name: request.payload.name,
-      description: request.payload.description,
-      money: request.payload.money
-    });
-
-    newTable.save(function(err){
-      if(!err){
-        console.log('New table added to database');
-        return reply('table saved');
-      }else{
-        console.log('An error was encountered');
-        return reply('Error');
-      }
-    });
-  }
-};
+var table = require('../schemas/table');
 
 exports.getTables = {
   auth: false,

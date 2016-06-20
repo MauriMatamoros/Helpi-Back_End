@@ -1,11 +1,12 @@
 var caso = require('../schemas/case');
+var table = require('../schemas/table');
 
 exports.createCase = {
-  auth: {
-    mode:'required',
-    strategy:'session',
-    scope: ['admin']
-  },
+  // auth: {
+  //   mode:'required',
+  //   strategy:'session',
+  //   scope: ['admin']
+  // },
   handler: function(request, reply){
     var newCase = new caso({
       name: request.payload.name,
@@ -13,7 +14,7 @@ exports.createCase = {
       description: request.payload.description,
       money: request.payload.money
     });
-
+    // console.log(this);
     newCase.save(function(err){
       if(!err){
         console.log('Nuevo Caso agregado a DB');
@@ -23,8 +24,21 @@ exports.createCase = {
         return reply('Error');
       }
     });
+    var newTable = new table({
+      name: request.payload.name,
+      case: newCase._id
+    });
+
+    newTable.save(function(err){
+      if(!err){
+        console.log('New table added to database');
+      }else{
+        console.log('An error was encountered');
+      }
+    });
   }
 };
+
 
 exports.getCases = {
   auth: false,
