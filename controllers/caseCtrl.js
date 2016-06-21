@@ -28,8 +28,8 @@ exports.createCase = {
     });
     newCase.save(function(err){
       if(!err){
-        console.log('Nuevo Caso agregado a DB');
-        return reply('Caso guardado.');
+        console.log('New Case on DB');
+        return reply('Caso Guardado');
       }else{
         console.log('An error was encountered whilst saving case');
         return reply('Error');
@@ -43,7 +43,7 @@ exports.getCases = {
   auth: false,
   handler: function(request, reply){
     var Caso = caso.find({});
-    console.log('Replying all cases');
+    console.log('Get_Cases');
     reply(Caso);
   }
 };
@@ -83,12 +83,12 @@ exports.deleteCase = {
             return reply('Deleted')
           }else{
             console.log('Table not Found')
-            return reply('not_found');
+            return reply('Error inesperado en el servidor');
           }
         });
       }else{
         console.log('Case not Found')
-        return reply('not_found');
+        return reply('Error inesperado');
       }
     });
   }
@@ -108,11 +108,10 @@ exports.updateCase = {
       money: request.payload.money
     }, function(err){
       if(err){
-        console.log('Error... ' + err);
-        reply('Error');
+        reply('Error al intentar modificar');
       }else{
         console.log('Caso con ID: ' + request.payload._id + ' Ha sido modificado');
-        reply('Modificado');
+        reply('Modificado satisfactoriamente');
       }
     });
   }
