@@ -5,7 +5,7 @@ var caseSchema = new mongoose.Schema({
   name: {type: String, unique: true, required: true},
   imageLink: String,
   description: String,
-  donors: [String],
+  resume: String,
   money: Number
 });
 

@@ -29,7 +29,7 @@ exports.login = {
           });
         }
         console.log('Ocurrio un problema de autenticacion');
-        return reply(boom.unauthorized('Usuario or password are incorrect'));
+        return reply(boom.unauthorized('Usuario o password son incorrectos'));
       }
       console.log('Problem in server');
       return reply(boom.notAcceptable('Error Executing Query'));
@@ -44,6 +44,6 @@ exports.logout = {
   },
   handler: function(request, reply){
     request.cookieAuth.clear();
-    return reply('Log out success');
+    return reply('Usuario fuera de helpi');
   }
 };

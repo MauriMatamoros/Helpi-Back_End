@@ -4,15 +4,15 @@ exports.getTables = {
   auth: false,
   handler: function(request, reply){
     var Table = table.find({});
-    console.log('Replying all tables');
+    console.log('Get_Tables');
     reply(Table);
   }
 };
 
-exports.getTableByID = {
+exports.getTableByCase = {
   auth: false,
   handler: function(request, reply){
-    var Table = table.find({_id: request.params._id}, function(err, table){
+    var Table = table.find({case: request.params._id}, function(err, table){
       if(!err){
        console.log('The table was found');
        return reply(table);
@@ -31,17 +31,25 @@ exports.updateTable = {
     scope: ['donante']
   },
   handler: function(request, reply){
-    var Table = table.findByIdAndUpdate(request.params._id,
-      {$push: {"donors": request.payload._id}},
-      {safe:true, upsert:true},
-      function(err){
-        if(err){
-          console.log(err);
-          return reply(boom.notAcceptable("Error, no se encontro su busqueda"));
+    table.find({case: request.params.caseid}, function(err, result) {
+      if(!err){
+        if(result.length > 0){
+          table.findByIdAndUpdate(result[0]._id,
+            {$push: {"donors": request.payload._id}},
+            {safe: true, upsert: true},
+            function(error){
+              if (error) {
+                return reply(boom.notAcceptable("Error, durante la busqueda"));
+              }else{
+                return reply('Seguimiento de donante, activado!!');
+              }
+            }
+          );
         }else{
-          return reply('Tabla Modificada.');
+          console.log('empty array');
+          return reply(boom.notAcceptable('Error inesperado en el servidor'));
         }
       }
-    );
+    });
   }
 };
