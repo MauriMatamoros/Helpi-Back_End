@@ -17,5 +17,6 @@ exports.endpoints = [{method: 'POST', path: '/cases/addcase', config: caseContro
 {method: 'PUT', path: '/users/update/{_id}', config: userController.updateUser},
 {method: 'GET', path: '/users/useremail/{email}', config: userController.getUserByEmail},
 {method: 'POST', path: '/users/mycases/{_id}/addCase', config: userController.addCaseToUser},
-{method: 'GET', path: '/users/mycases/{_id}', config: userController.getUserById}
+{method: 'GET', path: '/users/mycases/{_id}', config: userController.getUserById},
+{method: 'PUT', path: '/tables/updatemytable/{_id}', config: tableController.updateTable}
 ];
