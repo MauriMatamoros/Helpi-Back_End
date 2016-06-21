@@ -70,6 +70,17 @@ exports.deleteCase = {
   },
   handler: function(request, reply){
     var caseDeleted = caso.find({_id: request.params._id}, function(err){
+      var tableDeleted = table.find({case: caseDeleted._id}, function(err){
+        if(!err){
+          console.log('Deleting table');
+          tableDeleted.remove().exec();
+          console.log('Table was deleted');
+          return reply('Deleted')
+        }else{
+          console.log('Table not Found')
+          return reply('not_found');
+        }
+      })
       if(!err){
         console.log('Deleting case');
         caseDeleted.remove().exec();
