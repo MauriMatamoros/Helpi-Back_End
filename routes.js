@@ -5,7 +5,7 @@ var tableController = require('./controllers/tableCtrl');
 
 exports.endpoints = [{method: 'POST', path: '/cases/addcase', config: caseController.createCase},
 {method: 'GET', path: '/tables/gettables', config: tableController.getTables},
-{method: 'GET', path: '/tables/tableid/{_id}', config: tableController.getTableByID},
+{method: 'GET', path: '/tables/tableCase/{caseid}', config: tableController.getTableByCase},
 {method: 'GET', path: '/cases/getcases', config: caseController.getCases},
 {method: 'GET', path: '/cases/caseid/{_id}', config: caseController.getCaseByID},
 {method: 'DELETE', path: '/cases/deletecase/{_id}', config: caseController.deleteCase},
@@ -18,5 +18,5 @@ exports.endpoints = [{method: 'POST', path: '/cases/addcase', config: caseContro
 {method: 'GET', path: '/users/useremail/{email}', config: userController.getUserByEmail},
 {method: 'POST', path: '/users/mycases/{_id}/addCase', config: userController.addCaseToUser},
 {method: 'GET', path: '/users/mycases/{_id}', config: userController.getUserById},
-{method: 'PUT', path: '/tables/updatemytable/{_id}', config: tableController.updateTable}
+{method: 'PUT', path: '/tables/updatemytable/{caseid}', config: tableController.updateTable}
 ];

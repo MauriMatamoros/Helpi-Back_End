@@ -13,7 +13,7 @@ server.connection({
                 }
               }
 });
-mongoose.connect('mongodb://localhost:27017/db');
+mongoose.connect('mongodb://localhost:27017/helpi-test-db');
 // mongoose.connect('mongodb://helpimember:adminhelpi@ds025583.mlab.com:25583/helpidb');
 
 var db = mongoose.connection;
