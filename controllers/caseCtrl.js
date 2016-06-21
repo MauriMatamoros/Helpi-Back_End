@@ -14,7 +14,7 @@ exports.createCase = {
       description: request.payload.description,
       money: request.payload.money
     });
-    // console.log(this);
+
     var newTable = new table({
       name: request.payload.name,
       case: newCase._id
@@ -73,8 +73,19 @@ exports.deleteCase = {
       if(!err){
         console.log('Deleting case');
         caseDeleted.remove().exec();
-        console.log('Case was deleted');
-        return reply('Deleted')
+        //deleting table
+        console.log('Case was deleted, searching for table...');
+        var tableDeleted = table.find({case: request.params._id}, function(err){
+          if(!err){
+            console.log('Deleting table');
+            tableDeleted.remove().exec();
+            console.log('Table was deleted');
+            return reply('Deleted')
+          }else{
+            console.log('Table not Found')
+            return reply('not_found');
+          }
+        });
       }else{
         console.log('Case not Found')
         return reply('not_found');

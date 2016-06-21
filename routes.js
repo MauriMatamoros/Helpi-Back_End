@@ -6,7 +6,6 @@ var tableController = require('./controllers/tableCtrl');
 exports.endpoints = [{method: 'POST', path: '/cases/addcase', config: caseController.createCase},
 {method: 'GET', path: '/tables/gettables', config: tableController.getTables},
 {method: 'GET', path: '/tables/tableid/{_id}', config: tableController.getTableByID},
-{method: 'DELETE', path: '/tables/deletetable/{_id}', config: tableController.deleteTable},
 {method: 'GET', path: '/cases/getcases', config: caseController.getCases},
 {method: 'GET', path: '/cases/caseid/{_id}', config: caseController.getCaseByID},
 {method: 'DELETE', path: '/cases/deletecase/{_id}', config: caseController.deleteCase},

@@ -15,7 +15,7 @@ exports.getTableByID = {
     var Table = table.find({_id: request.params._id}, function(err, table){
       if(!err){
        console.log('The table was found');
-       return reply(Caso);
+       return reply(table);
       }
       console.log('The table was not Found');
       return reply('Table not Found');
@@ -23,26 +23,6 @@ exports.getTableByID = {
   }
 };
 
-exports.deleteTable = {
-  auth: {
-    mode:'required',
-    strategy:'session',
-    scope: ['admin']
-  },
-  handler: function(request, reply){
-    var tableDeleted = table.find({_id: request.params._id}, function(err){
-      if(!err){
-        console.log('Deleting table');
-        tableDeleted.remove().exec();
-        console.log('Table was deleted');
-        return reply('Deleted')
-      }else{
-        console.log('Table not Found')
-        return reply('not_found');
-      }
-    });
-  }
-};
 
 exports.updateTable = {
   auth: {
