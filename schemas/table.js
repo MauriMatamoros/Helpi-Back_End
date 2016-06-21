@@ -3,7 +3,7 @@ var uniqueValidator = require('mongoose-unique-validator');
 
 var tableSchema = new mongoose.Schema({
   name: String,
-  donors: [String],
+  donors: [{type: String, unique: true}],
   case: {type: String, unique: true, required: true}
 });
 
