@@ -46,6 +46,7 @@ exports.addCaseToUser = {
       function(err){
         if(err){
           console.log(err);
+          return reply(boom.notAcceptable("Error, no se encontro su busqueda"));
         }else{
           return reply('success');
         }
@@ -63,7 +64,7 @@ exports.getUserById = {
     var me = user.find({_id: request.params._id}, function(err, user) {
       if(err){
         console.log(err);
-        return reply('Not Found');
+        return reply(boom.notAcceptable('Not Found'));
       }else{
         return reply(user);
       }
@@ -80,7 +81,7 @@ exports.getUserByEmail = {
        return reply(user);
       }
       console.log('The user by email was not Found');
-      return reply('user not Found');
+      return reply(boom.notAcceptable('user not Found'));
     });
   }
 };
@@ -139,7 +140,7 @@ exports.updateUser = {
     }, function(err){
       if(err){
         console.log('Error... ' + err);
-        reply('Error');
+        return reply(boom.notAcceptable('Error'));
       }else{
         console.log('Caso con ID: ' + request.payload._id + ' Ha sido modificado');
         reply('Modificado');

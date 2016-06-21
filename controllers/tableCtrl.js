@@ -15,53 +15,33 @@ exports.getTableByID = {
     var Table = table.find({_id: request.params._id}, function(err, table){
       if(!err){
        console.log('The table was found');
-       return reply(Caso);
+       return reply(table);
       }
       console.log('The table was not Found');
-      return reply('Table not Found');
+      return reply(boom.notAcceptable('Table not Found'));
     });
   }
 };
 
-exports.deleteTable = {
-  auth: {
-    mode:'required',
-    strategy:'session',
-    scope: ['admin']
-  },
-  handler: function(request, reply){
-    var tableDeleted = table.find({_id: request.params._id}, function(err){
-      if(!err){
-        console.log('Deleting table');
-        tableDeleted.remove().exec();
-        console.log('Table was deleted');
-        return reply('Deleted')
-      }else{
-        console.log('Table not Found')
-        return reply('not_found');
-      }
-    });
-  }
-};
 
 exports.updateTable = {
   auth: {
     mode:'required',
     strategy:'session',
-    scope: ['admin']
+    scope: ['donante']
   },
   handler: function(request, reply){
-    var Table = table.findByIdAndUpdate(encodeURIComponent(request.params._id), {
-      name: request.payload.name,
-      donors: request.payload.description,
-    }, function(err){
-      if(err){
-        console.log('Error... ' + err);
-        reply('Error');
-      }else{
-        console.log('Table con ID: ' + request.payload._id + ' has been updated');
-        reply('Mod');
+    var Table = table.findByIdAndUpdate(request.params._id,
+      {$push: {"donors": request.payload._id}},
+      {safe:true, upsert:true},
+      function(err){
+        if(err){
+          console.log(err);
+          return reply(boom.notAcceptable("Error, no se encontro su busqueda"));
+        }else{
+          return reply('Tabla Modificada.');
+        }
       }
-    });
+    );
   }
 };
