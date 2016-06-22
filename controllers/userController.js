@@ -39,17 +39,25 @@ exports.addCaseToUser = {
     scope: ['donante']
   },
   handler: function(request, reply){
-    user.findByIdAndUpdate(
-      request.params._id,
-      {$push: {"cases": request.payload._id}},
-      {safe:true, upsert: true},
-      function(err){
-        if(err){
-          console.log(err);
-          return reply(boom.notAcceptable("Error, no se encontro su busqueda"));
+    user.find({_id: request.params._id}, function(err, result){
+      if(!err){
+        if(result.length > 0){
+          user.findByIdAndUpdate(result[0]._id,
+            {$push: {"cases": request.payload._id}},
+            {safe:true, upsert: true},
+            function(error){
+              if(error){
+                console.log(error);
+                return reply(boom.notAcceptable("Error, no se encontro su busqueda"));
+              }else{
+                return reply('success');
+              }
+          })
         }else{
-          return reply('success');
+          console.log('Empty');
+          return reply('Empty');
         }
+      }
     });
   }
 };
