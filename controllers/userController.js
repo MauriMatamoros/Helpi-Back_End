@@ -103,7 +103,7 @@ exports.deleteUser = {
   auth: {
     mode:'required',
     strategy:'session',
-    scope: ['donante']
+    scope: ['donante','admin']
   },
   handler: function(request, reply){
     var gameDeleted = user.find({_id: request.params._id}, function(err, user){
@@ -129,7 +129,7 @@ exports.updateUser = {
   auth: {
     mode:'required',
     strategy:'session',
-    scope: ['donante']
+    scope: ['donante','admin']
   },
   handler: function(request, reply){
     var userUpdated = user.findByIdAndUpdate(encodeURIComponent(request.params._id), {
