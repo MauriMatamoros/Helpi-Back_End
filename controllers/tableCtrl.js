@@ -23,7 +23,6 @@ exports.getTableByCase = {
   }
 };
 
-
 exports.updateTable = {
   auth: {
     mode:'required',
