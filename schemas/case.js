@@ -6,7 +6,8 @@ var caseSchema = new mongoose.Schema({
   imageLink: String,
   description: String,
   resume: String,
-  money: Number
+  money: Number,
+  priority: Number
 });
 
 caseSchema.plugin(uniqueValidator);

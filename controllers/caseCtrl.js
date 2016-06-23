@@ -12,7 +12,8 @@ exports.createCase = {
       name: request.payload.name,
       imageLink: request.payload.imageLink,
       description: request.payload.description,
-      money: request.payload.money
+      money: request.payload.money,
+      priority: request.payload.priority
     });
 
     var newTable = new table({
@@ -116,7 +117,8 @@ exports.updateCase = {
       name: request.payload.name,
       imageLink: request.payload.imageLink,
       description: request.payload.description,
-      money: request.payload.money
+      money: request.payload.money,
+      priority: request.payload.money
     }, function(err){
       if(err){
         reply('Error al intentar modificar');
