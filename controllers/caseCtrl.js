@@ -15,7 +15,8 @@ exports.createCase = {
       description: request.payload.description,
       money: request.payload.money,
       priority: request.payload.priority,
-      resume: request.payload.resume
+      resume: request.payload.resume,
+      MoneyGot: request.payload.MoneyGot
     });
 
     var newTable = new table({
@@ -115,6 +116,7 @@ exports.updateCase = {
     scope: ['donante', 'admin']
   },
   handler: function(request, reply){
+    console.log(request.payload);
     caso.find({_id: request.params._id}, function(err, caseFound){
       var Case = caso.findByIdAndUpdate(encodeURIComponent(request.params._id), {
         MoneyGot: request.payload.money
