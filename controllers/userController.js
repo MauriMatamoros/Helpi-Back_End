@@ -39,20 +39,31 @@ exports.addCaseToUser = {
     scope: ['donante']
   },
   handler: function(request, reply){
+    var matchFound = 0;
     user.find({_id: request.params._id}, function(err, result){
       if(!err){
+        console.log('Agregando caso a ' + result[0].name);
         if(result.length > 0){
-          user.findByIdAndUpdate(result[0]._id,
-            {$push: {"cases": request.payload._id}},
-            {safe:true, upsert: true},
-            function(error){
-              if(error){
-                console.log(error);
-                return reply(boom.notAcceptable("Error, no se encontro su busqueda"));
-              }else{
-                return reply('success');
-              }
-          })
+          for (var i = 0; i < result[0].cases.length; i++) {
+            if(request.payload._id === result[0].cases[i]){
+              matchFound++;
+            }
+          }
+          if(matchFound === 0){
+            user.findByIdAndUpdate(result[0]._id,
+              {$push: {"cases": request.payload._id}},
+              {safe:true, upsert: true},
+              function(error){
+                if(error){
+                  console.log(error);
+                  return reply(boom.notAcceptable("Error, no se encontro su busqueda"));
+                }else{
+                  return reply('Donacion Agregada');
+                }
+            });
+          }else{
+            return reply('Usted ya ha donado para este caso');
+          }
         }else{
           console.log('Empty');
           return reply('Empty');
