@@ -78,7 +78,7 @@ exports.getUserById = {
   auth: {
     mode:'required',
     strategy:'session',
-    scope: ['donante']
+    scope: ['donante','admin']
   },
   handler: function(request, reply){
     var me = user.find({_id: request.params._id}, function(err, user) {
