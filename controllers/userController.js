@@ -16,7 +16,8 @@ exports.CreateUser = {
       password: SHA3(request.payload.password),
       email: request.payload.email,
       scope: request.payload.scope,
-      profile_photo: request.payload.profile_photo
+      profile_photo: request.payload.profile_photo,
+      provider: request.payload.provider
     });
     console.log('Preparando el nuevo usuario');
     newUser.save(function(err){
@@ -109,7 +110,7 @@ exports.getUsers = {
   auth: {
     mode:'required',
     strategy:'session',
-    scope: ['admin']
+    scope: ['admin', 'donante']
   },
   handler: function(request, reply){
     var UserGot = user.find({});

@@ -25,7 +25,8 @@ exports.login = {
             username: user[0].username,
             scope: user[0].scope,
             email: user[0].email,
-            profile_photo: user[0].profile_photo
+            profile_photo: user[0].profile_photo,
+            provider: user[0].provider
           });
         }
         console.log('Ocurrio un problema de autenticacion');
