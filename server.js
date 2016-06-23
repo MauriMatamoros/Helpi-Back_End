@@ -13,8 +13,8 @@ server.connection({
                 }
               }
 });
-
-mongoose.connect('mongodb://localhost:27017/testdbchris');
+// mongoose.connect('mongodb://localhost:27017/helpi-test-db');
+mongoose.connect('mongodb://chris:admin@ds023054.mlab.com:23054/helpidatabase');
 
 var db = mongoose.connection;
 db.on('error', console.error.bind(console, 'Error al conectar con base de datos'));

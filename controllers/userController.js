@@ -16,7 +16,8 @@ exports.CreateUser = {
       password: SHA3(request.payload.password),
       email: request.payload.email,
       scope: request.payload.scope,
-      profile_photo: request.payload.profile_photo
+      profile_photo: request.payload.profile_photo,
+      provider: request.payload.provider
     });
     console.log('Preparando el nuevo usuario');
     newUser.save(function(err){
@@ -39,16 +40,36 @@ exports.addCaseToUser = {
     scope: ['donante']
   },
   handler: function(request, reply){
-    user.findByIdAndUpdate(
-      request.params._id,
-      {$push: {"cases": request.payload._id}},
-      {safe:true, upsert: true},
-      function(err){
-        if(err){
-          console.log(err);
+    var matchFound = 0;
+    user.find({_id: request.params._id}, function(err, result){
+      if(!err){
+        console.log('Agregando caso a ' + result[0].name);
+        if(result.length > 0){
+          for (var i = 0; i < result[0].cases.length; i++) {
+            if(request.payload._id === result[0].cases[i]){
+              matchFound++;
+            }
+          }
+          if(matchFound === 0){
+            user.findByIdAndUpdate(result[0]._id,
+              {$push: {"cases": request.payload._id}},
+              {safe:true, upsert: true},
+              function(error){
+                if(error){
+                  console.log(error);
+                  return reply(boom.notAcceptable("Error, no se encontro su busqueda"));
+                }else{
+                  return reply('Donacion Agregada');
+                }
+            });
+          }else{
+            return reply('Usted ya ha donado para este caso');
+          }
         }else{
-          return reply('success');
+          console.log('Empty');
+          return reply('Empty');
         }
+      }
     });
   }
 };
@@ -57,13 +78,13 @@ exports.getUserById = {
   auth: {
     mode:'required',
     strategy:'session',
-    scope: ['donante']
+    scope: ['donante','admin']
   },
   handler: function(request, reply){
     var me = user.find({_id: request.params._id}, function(err, user) {
       if(err){
         console.log(err);
-        return reply('Not Found');
+        return reply(boom.notAcceptable('Not Found'));
       }else{
         return reply(user);
       }
@@ -80,7 +101,7 @@ exports.getUserByEmail = {
        return reply(user);
       }
       console.log('The user by email was not Found');
-      return reply('user not Found');
+      return reply(boom.notAcceptable('user not Found'));
     });
   }
 };
@@ -89,7 +110,7 @@ exports.getUsers = {
   auth: {
     mode:'required',
     strategy:'session',
-    scope: ['admin']
+    scope: ['admin', 'donante']
   },
   handler: function(request, reply){
     var UserGot = user.find({});
@@ -102,7 +123,7 @@ exports.deleteUser = {
   auth: {
     mode:'required',
     strategy:'session',
-    scope: ['donante']
+    scope: ['donante','admin']
   },
   handler: function(request, reply){
     var gameDeleted = user.find({_id: request.params._id}, function(err, user){
@@ -128,7 +149,7 @@ exports.updateUser = {
   auth: {
     mode:'required',
     strategy:'session',
-    scope: ['donante']
+    scope: ['donante','admin']
   },
   handler: function(request, reply){
     var userUpdated = user.findByIdAndUpdate(encodeURIComponent(request.params._id), {
@@ -139,7 +160,7 @@ exports.updateUser = {
     }, function(err){
       if(err){
         console.log('Error... ' + err);
-        reply('Error');
+        return reply(boom.notAcceptable('Error'));
       }else{
         console.log('Caso con ID: ' + request.payload._id + ' Ha sido modificado');
         reply('Modificado');

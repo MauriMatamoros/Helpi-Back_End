@@ -8,7 +8,8 @@ var userSchema = new mongoose.Schema({
   email: {type: String, unique: true, required: true},
   cases:[String],
   scope: [String],
-  profile_photo: String
+  profile_photo: String,
+  provider: String
 });
 
 userSchema.plugin(uniqueValidator);
