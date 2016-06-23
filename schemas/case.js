@@ -7,7 +7,8 @@ var caseSchema = new mongoose.Schema({
   description: String,
   resume: String,
   money: Number,
-  priority: Number
+  priority: Number,
+  MoneyGot: Number
 });
 
 caseSchema.plugin(uniqueValidator);

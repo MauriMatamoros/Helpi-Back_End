@@ -1,5 +1,6 @@
 var caso = require('../schemas/case');
 var table = require('../schemas/table');
+var boom = require('boom');
 
 exports.createCase = {
   auth: {
@@ -13,7 +14,8 @@ exports.createCase = {
       imageLink: request.payload.imageLink,
       description: request.payload.description,
       money: request.payload.money,
-      priority: request.payload.priority
+      priority: request.payload.priority,
+      resume: request.payload.resume
     });
 
     var newTable = new table({
@@ -33,7 +35,7 @@ exports.createCase = {
         return reply('Caso Guardado');
       }else{
         console.log('An error was encountered whilst saving case');
-        return reply('Error');
+        return reply(boom.notAcceptable('Error'));
       }
     });
   }
@@ -58,7 +60,7 @@ exports.getCaseByID = {
        return reply(Caso);
       }
       console.log('The Case was not Found');
-      return reply('Case not Found');
+      return reply(boom.notAcceptable('Case not Found'));
     });
   }
 };
@@ -76,10 +78,10 @@ exports.deleteCase = {
           console.log('Deleting table');
           tableDeleted.remove().exec();
           console.log('Table was deleted');
-          return reply('Deleted')
+          // return reply('Deleted')
         }else{
           console.log('Table not Found')
-          return reply('not_found');
+          // return reply(boom.notAcceptable('not_found'));
         }
       })
       if(!err){
@@ -95,12 +97,12 @@ exports.deleteCase = {
             return reply('Deleted')
           }else{
             console.log('Table not Found')
-            return reply('Error inesperado en el servidor');
+            return reply(boom.notAcceptable('Error inesperado en el servidor'));
           }
         });
       }else{
         console.log('Case not Found')
-        return reply('Error inesperado');
+        return reply(boom.notAcceptable('Error inesperado'));
       }
     });
   }
@@ -110,22 +112,21 @@ exports.updateCase = {
   auth: {
     mode:'required',
     strategy:'session',
-    scope: ['admin']
+    scope: ['donante', 'admin']
   },
   handler: function(request, reply){
-    var Case = caso.findByIdAndUpdate(encodeURIComponent(request.params._id), {
-      name: request.payload.name,
-      imageLink: request.payload.imageLink,
-      description: request.payload.description,
-      money: request.payload.money,
-      priority: request.payload.money
-    }, function(err){
-      if(err){
-        reply('Error al intentar modificar');
-      }else{
-        console.log('Caso con ID: ' + request.payload._id + ' Ha sido modificado');
-        reply('Modificado satisfactoriamente');
-      }
-    });
+    caso.find({_id: request.params._id}, function(err, caseFound){
+      var Case = caso.findByIdAndUpdate(encodeURIComponent(request.params._id), {
+        MoneyGot: request.payload.money
+      }, function(err){
+        if(err){
+          console.log(err);
+          return reply(boom.notAcceptable('Error al intentar modificar'));
+        }else{
+          console.log('Caso con ID: ' + request.params._id + ' Ha sido modificado');
+          reply('Modificado satisfactoriamente');
+        }
+      });
+    })
   }
 };

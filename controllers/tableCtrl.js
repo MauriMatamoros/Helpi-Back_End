@@ -1,4 +1,5 @@
 var table = require('../schemas/table');
+var boom = require('boom');
 
 exports.getTables = {
   auth: false,
